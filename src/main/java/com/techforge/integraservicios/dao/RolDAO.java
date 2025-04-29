@@ -10,6 +10,8 @@ public interface RolDAO {
 
     Rol findById(int id);
 
+    Rol findByName(String name);
+
     Rol save(Rol rol);
 
     void deleteById(int id);

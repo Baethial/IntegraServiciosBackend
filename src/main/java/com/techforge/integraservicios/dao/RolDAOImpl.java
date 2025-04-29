@@ -34,9 +34,22 @@ public class RolDAOImpl implements RolDAO{
     }
 
     @Override
+    public Rol findByName(String name) {
+        TypedQuery<Rol> query = entityManager.createQuery(
+                "SELECT r FROM Rol r WHERE r.nombre = :nombre", Rol.class);
+        query.setParameter("nombre", name);
+
+        List<Rol> result = query.getResultList();
+        if (result.isEmpty()) {
+            return null; // No role found
+        }
+        return result.get(0); // Return the first match
+    }
+
+    @Override
     public Rol save(Rol rol) {
 
-        Rol dbUsuario = entityManager.merge(rol); // Si el id es cero guarda, en otro caso actualiza
+        Rol dbUsuario = entityManager.merge(rol); // If the id is zero then it saves, in any other case it updates
 
         return dbUsuario;
     }

@@ -16,11 +16,11 @@ public class UsuarioDTO {
     private String correo;
     private String contrasena;
     private String estado;
-    private Set<Integer> roles;
+    private Set<String> roles;
 
     public UsuarioDTO() {}
 
-    public UsuarioDTO(int id, String nombre, String apellido, String correo, String contrasena, String estado, Set<Integer> roles) {
+    public UsuarioDTO(int id, String nombre, String apellido, String correo, String contrasena, String estado, Set<String> roles) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -40,27 +40,29 @@ public class UsuarioDTO {
                 usuario.getContrasena(),
                 String.valueOf(usuario.getEstado()),
 
-                usuario.getRoles().stream().map(rol -> rol.getId()).collect(Collectors.toSet())
+                usuario.getRoles().stream().map(rol -> rol.getNombre()).collect(Collectors.toSet())
         );
     }
 
-    // Convert DTO -> Entity with role conversion
+    // Convert from DTO to Entity - with role conversion
     public Usuario toEntity(RolDAO rolDAO) {
         Usuario usuario = new Usuario();
         usuario.setId(this.id);
         usuario.setNombre(this.nombre);
         usuario.setApellido(this.apellido);
         usuario.setCorreo(this.correo);
+        usuario.setContrasena(this.contrasena);
 
+        // Convert String to Enum
         if (this.estado != null) {
-            usuario.setEstado(Usuario.getEstadoFromString(this.estado)); // Convert String to Enum
+            usuario.setEstado(Usuario.getEstadoFromString(this.estado));
         }
 
         // Convert role IDs to Role entities
         if (this.roles != null && !this.roles.isEmpty()) {
             Set<Rol> roleEntities = new HashSet<>();
-            for (Integer roleId : this.roles) {
-                Rol existingRol = rolDAO.findById(roleId);
+            for (String rol : this.roles) {
+                Rol existingRol = rolDAO.findByName(rol);
                 if (existingRol != null) {
                     roleEntities.add(existingRol);
                 }
@@ -119,11 +121,11 @@ public class UsuarioDTO {
         this.estado = estado;
     }
 
-    public Set<Integer> getRoles() {
+    public Set<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Integer> roles) {
+    public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
 }

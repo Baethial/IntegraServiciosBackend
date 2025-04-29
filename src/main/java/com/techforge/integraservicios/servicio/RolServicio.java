@@ -1,17 +1,22 @@
 package com.techforge.integraservicios.servicio;
 
+import com.techforge.integraservicios.dto.RolDTO;
 import com.techforge.integraservicios.entidad.Rol;
 
 import java.util.List;
 
 public interface RolServicio {
 
-    List<Rol> findAll();
+    List<RolDTO> findAll();
 
-    Rol findById(int id);
+    RolDTO findById(int id);
+
+    RolDTO findByName(String name);
 
     // create or update
-    Rol save(Rol rol);
+    RolDTO save(RolDTO rol);
+
+    RolDTO update(int id, RolDTO rol);
 
     void deleteById(int id);
 }

@@ -1,5 +1,6 @@
 package com.techforge.integraservicios.rest;
 
+import com.techforge.integraservicios.dto.RolDTO;
 import com.techforge.integraservicios.entidad.Rol;
 import com.techforge.integraservicios.servicio.RolServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,46 +20,42 @@ public class RolControladorRest {
     }
 
     @GetMapping("/roles")
-    public List<Rol> findAll() {
+    public List<RolDTO> findAll() {
         return rolServicio.findAll();
     }
 
     @GetMapping("/roles/{id}")
-    public Rol findById(@PathVariable int id) {
+    public RolDTO findById(@PathVariable int id) {
 
-        Rol rol = rolServicio.findById(id);
+        RolDTO rolDTO = rolServicio.findById(id);
 
-        if (rol == null) {
+        if (rolDTO == null) {
             throw new RuntimeException("Rol id not found - " + id);
         }
 
-        return rol;
+        return rolDTO;
     }
 
     @PostMapping("/roles")
-    public Rol addUsuario(@RequestBody Rol rol) {
+    public RolDTO addRol(@RequestBody RolDTO rolDTO) {
 
-        rol.setId(0);
-        Rol dbRol = rolServicio.save(rol);
+        rolDTO.setId(0);
+        RolDTO dbRol = rolServicio.save(rolDTO);
         return dbRol;
     }
 
     @PutMapping("/roles/{id}")
-    public Rol modifyUsuario(@RequestBody Rol rol, @PathVariable int id) {
+    public RolDTO modifyRol(@RequestBody RolDTO rolDTO, @PathVariable int id) {
 
-        rol.setId(id);
-        Rol dbRol = rolServicio.save(rol);
+        rolDTO.setId(id);
+        RolDTO dbRol = rolServicio.update(id, rolDTO);
         return dbRol;
     }
 
     @DeleteMapping("/roles/{id}")
     public void delete(@PathVariable int id) {
 
-        Rol dbRol = findById(id);
-
-        if (dbRol == null) {
-            throw new RuntimeException(("Rol id not found - " + id));
-        }
+        RolDTO dbRol = findById(id);
         rolServicio.deleteById(id);
     }
 }

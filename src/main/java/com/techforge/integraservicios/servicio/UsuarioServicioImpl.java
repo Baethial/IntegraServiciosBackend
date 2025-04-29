@@ -28,7 +28,9 @@ public class UsuarioServicioImpl implements UsuarioServicio{
 
     @Override
     public List<UsuarioDTO> findAll() {
-        return usuarioDAO.findAll().stream().map(UsuarioDTO::fromEntity).collect(Collectors.toList());
+        return usuarioDAO.findAll().stream()
+                .map(entity -> UsuarioDTO.fromEntity(entity))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -61,8 +63,8 @@ public class UsuarioServicioImpl implements UsuarioServicio{
         }
         if (usuarioDTO.getRoles() != null) {
             Set<Rol> existingRoles = new HashSet<>();
-            for (Integer roleId : usuarioDTO.getRoles()) {
-                Rol existingRol = rolDAO.findById(roleId);
+            for (String rol : usuarioDTO.getRoles()) {
+                Rol existingRol = rolDAO.findByName(rol);
                 existingRoles.add(existingRol);
             }
             dbUsuario.setRoles(existingRoles);

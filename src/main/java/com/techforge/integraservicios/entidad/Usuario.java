@@ -130,7 +130,7 @@ public class Usuario {
         return estado;
     }
 
-    // Add this static method for conversion
+    // Static method to select a "estado" from a String
     public static Estado getEstadoFromString(String estado) {
         if (estado == null) {
             return null;
