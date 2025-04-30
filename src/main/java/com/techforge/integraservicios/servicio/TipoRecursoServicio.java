@@ -1,16 +1,19 @@
 package com.techforge.integraservicios.servicio;
 
+import com.techforge.integraservicios.dto.TipoRecursoDTO;
 import com.techforge.integraservicios.entidad.TipoRecurso;
 
 import java.util.List;
 
 public interface TipoRecursoServicio {
 
-    List<TipoRecurso> findAll();
+    List<TipoRecursoDTO> findAll();
 
-    TipoRecurso findById(int id);
+    TipoRecursoDTO findById(int id);
 
-    TipoRecurso save(TipoRecurso tipoRecurso);
+    TipoRecursoDTO save(TipoRecursoDTO tipoRecursoDTO);
+
+    TipoRecursoDTO update(int id, TipoRecursoDTO tipoRecursoDTO);
 
     void deleteById(int id);
 }
